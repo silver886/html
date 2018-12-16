@@ -22,7 +22,7 @@ type Attr map[string]Values
 // Values is the values of a attribute
 type Values []string
 
-// NewNode create a HTML document
+// NewNode create a node
 func NewNode(name string) *Node {
 	return &Node{
 		name:    name,
@@ -31,7 +31,7 @@ func NewNode(name string) *Node {
 	}
 }
 
-// Copy a Node document
+// Copy a node
 func (n *Node) Copy() *Node {
 	attr := &Attr{}
 	for k, v := range *n.attr {
