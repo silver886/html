@@ -8,8 +8,8 @@ import (
 // Node is the basic element in HTML document
 type Node struct {
 	name    string
-	attr    Attr
-	content Contents
+	attr    *Attr
+	content *Contents
 }
 
 // Contents is the contents of a node
@@ -24,15 +24,16 @@ type Values []string
 // NewNode create a HTML document
 func NewNode(name string) *Node {
 	return &Node{
-		name: name,
-		attr: make(Attr),
+		name:    name,
+		attr:    &Attr{},
+		content: &Contents{},
 	}
 }
 
 // AddAttr attribute to node
 func (n *Node) AddAttr(attr Attr) *Node {
 	for k, v := range attr {
-		n.attr[k] = v
+		(*n.attr)[k] = v
 	}
 	return n
 }
@@ -45,9 +46,9 @@ func (n *Node) AddChild(content interface{}) *Node {
 		for i, v := range *v {
 			s[i] = v
 		}
-		n.content = append(n.content, s...)
+		*n.content = append(*n.content, s...)
 	default:
-		n.content = append(n.content, v)
+		*n.content = append(*n.content, v)
 	}
 	return n
 }

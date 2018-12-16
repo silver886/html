@@ -8,13 +8,14 @@ import (
 // HTML presents a HTML document
 type HTML struct {
 	docType string
-	content Contents
+	content *Contents
 }
 
 // NewHTML create a HTML document
 func NewHTML(docType string) *HTML {
 	return &HTML{
 		docType: docType,
+		content: &Contents{},
 	}
 }
 
@@ -26,9 +27,9 @@ func (h *HTML) AddChild(content interface{}) *HTML {
 		for i, v := range *v {
 			s[i] = v
 		}
-		h.content = append(h.content, s...)
+		*h.content = append(*h.content, s...)
 	default:
-		h.content = append(h.content, v)
+		*h.content = append(*h.content, v)
 	}
 	return h
 }
@@ -39,7 +40,7 @@ func (h *HTML) Mershal(out io.Writer) {
 	out.Write([]byte(h.docType))
 	out.Write([]byte("><html"))
 
-	if len(h.content) == 0 {
+	if len(*h.content) == 0 {
 		out.Write([]byte(" />"))
 	} else {
 		out.Write([]byte(">"))
