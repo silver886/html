@@ -2,6 +2,7 @@ package html
 
 import (
 	"io"
+	"reflect"
 	"strings"
 )
 
@@ -41,6 +42,9 @@ func (n *Node) AddAttr(attr Attr) *Node {
 // AddChild node to node
 func (n *Node) AddChild(contents ...interface{}) *Node {
 	for _, v := range contents {
+		if v == nil || (reflect.TypeOf(v).Kind() == reflect.Ptr && reflect.ValueOf(v).IsNil()) {
+			continue
+		}
 		switch v := v.(type) {
 		case *Contents:
 			s := make(Contents, len(*v))
