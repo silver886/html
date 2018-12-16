@@ -2,6 +2,7 @@ package html
 
 import (
 	"io"
+	"reflect"
 	"strings"
 )
 
@@ -20,16 +21,21 @@ func NewHTML(docType string) *HTML {
 }
 
 // AddChild node to HTML document
-func (h *HTML) AddChild(content interface{}) *HTML {
-	switch v := content.(type) {
-	case *[]*Node:
-		s := make([]interface{}, len(*v))
-		for i, v := range *v {
-			s[i] = v
+func (h *HTML) AddChild(contents ...interface{}) *HTML {
+	for _, v := range contents {
+		if v == nil || (reflect.TypeOf(v).Kind() == reflect.Ptr && reflect.ValueOf(v).IsNil()) {
+			continue
 		}
-		*h.content = append(*h.content, s...)
-	default:
-		*h.content = append(*h.content, v)
+		switch v := v.(type) {
+		case *[]*Node:
+			s := make([]interface{}, len(*v))
+			for i, v := range *v {
+				s[i] = v
+			}
+			*h.content = append(*h.content, s...)
+		default:
+			*h.content = append(*h.content, v)
+		}
 	}
 	return h
 }
