@@ -56,10 +56,10 @@ func (n *Node) AddChild(contents ...interface{}) *Node {
 }
 
 // AddSibling node to node
-func (n *Node) AddSibling(content ...interface{}) *Contents {
-	s := make(Contents, len(content)+1)
+func (n *Node) AddSibling(contents ...interface{}) *Contents {
+	s := make(Contents, len(contents)+1)
 	s[0] = n
-	for i, v := range content {
+	for i, v := range contents {
 		s[i+1] = v
 	}
 	return &s
