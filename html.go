@@ -20,6 +20,18 @@ func NewHTML(docType string) *HTML {
 	}
 }
 
+// Copy a HTML document
+func (h *HTML) Copy() *HTML {
+	content := &Contents{}
+	for k, v := range *h.content {
+		(*content)[k] = v
+	}
+	return &HTML{
+		docType: h.docType,
+		content: content,
+	}
+}
+
 // AddChild node to HTML document
 func (h *HTML) AddChild(contents ...interface{}) *HTML {
 	for _, v := range contents {

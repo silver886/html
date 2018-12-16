@@ -31,6 +31,23 @@ func NewNode(name string) *Node {
 	}
 }
 
+// Copy a Node document
+func (n *Node) Copy() *Node {
+	attr := &Attr{}
+	for k, v := range *n.attr {
+		(*attr)[k] = v
+	}
+	content := &Contents{}
+	for k, v := range *n.content {
+		(*content)[k] = v
+	}
+	return &Node{
+		name:    n.name,
+		attr:    attr,
+		content: content,
+	}
+}
+
 // AddAttr attribute to node
 func (n *Node) AddAttr(attr Attr) *Node {
 	for k, v := range attr {
