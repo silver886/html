@@ -39,16 +39,18 @@ func (n *Node) AddAttr(attr Attr) *Node {
 }
 
 // AddChild node to node
-func (n *Node) AddChild(content interface{}) *Node {
-	switch v := content.(type) {
-	case *Contents:
-		s := make(Contents, len(*v))
-		for i, v := range *v {
-			s[i] = v
+func (n *Node) AddChild(contents ...interface{}) *Node {
+	for _, v := range contents {
+		switch v := v.(type) {
+		case *Contents:
+			s := make(Contents, len(*v))
+			for i, v := range *v {
+				s[i] = v
+			}
+			*n.content = append(*n.content, s...)
+		default:
+			*n.content = append(*n.content, v)
 		}
-		*n.content = append(*n.content, s...)
-	default:
-		*n.content = append(*n.content, v)
 	}
 	return n
 }
