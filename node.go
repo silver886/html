@@ -38,8 +38,8 @@ func (n *Node) Copy() *Node {
 		(*attr)[k] = v
 	}
 	content := &Contents{}
-	for k, v := range *n.content {
-		(*content)[k] = v
+	for _, v := range *n.content {
+		*content = append(*content, v)
 	}
 	return &Node{
 		name:    n.name,
